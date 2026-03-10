@@ -1,0 +1,7 @@
+file,rows,columns,column_names
+communities.parquet,301,12,"id, human_readable_id, community, level, parent, children, title, entity_ids, relationship_ids, text_unit_ids, period, size"
+community_reports.parquet,301,15,"id, human_readable_id, community, level, parent, children, title, summary, full_content, rank, rating_explanation, findings, full_content_json, period, size"
+documents.parquet,1,7,"id, human_readable_id, title, text, text_unit_ids, creation_date, raw_data"
+entities.parquet,1444,8,"id, human_readable_id, title, type, description, text_unit_ids, frequency, degree"
+relationships.parquet,2473,8,"id, human_readable_id, source, target, description, weight, combined_degree, text_unit_ids"
+text_units.parquet,171,8,"id, human_readable_id, text, n_tokens, document_id, entity_ids, relationship_ids, covariate_ids"
