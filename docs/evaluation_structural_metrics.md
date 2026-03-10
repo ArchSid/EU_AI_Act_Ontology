@@ -2,7 +2,7 @@
 
 ## Overview
 
-This evaluation measures the ontology's internal structure using eight automated metrics. No manual annotation or gold standard is required — the script analyses the serialised ontology file directly.
+This evaluation measures the ontology's internal structure using eight automated metrics. No manual annotation or gold standard is required, the script analyses the serialised ontology file directly.
 
 **Script:** `scripts/05_evaluate.py`
 **Input:** `ontology/eu-ai-act.ttl`
