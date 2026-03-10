@@ -4,11 +4,11 @@ An OWL 2 ontology of the [EU Artificial Intelligence Act](https://eur-lex.europa
 
 ## What It Covers
 
-- **AI systems** across the full risk spectrum — prohibited practices, high-risk systems, general-purpose AI models, and systemic-risk models
-- **Supply-chain actors** — providers, deployers, importers, distributors, authorised representatives
-- **Oversight bodies** — AI Office, European AI Board, national competent authorities, notified bodies
-- **Obligations & requirements** — conformity assessment, transparency, post-market monitoring, risk management, data governance, human oversight, robustness, technical documentation
-- **Risk classification** — the four-tier risk framework, Annex III categories, exclusion conditions, delegated acts
+- **AI systems** across the full risk spectrum : prohibited practices, high-risk systems, general-purpose AI models, and systemic-risk models
+- **Supply-chain actors** : providers, deployers, importers, distributors, authorised representatives
+- **Oversight bodies** : AI Office, European AI Board, national competent authorities, notified bodies
+- **Obligations & requirements** : conformity assessment, transparency, post-market monitoring, risk management, data governance, human oversight, robustness, technical documentation
+- **Risk classification** : the four-tier risk framework, Annex III categories, exclusion conditions, delegated acts
 
 ## How It Was Built
 
