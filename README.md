@@ -71,15 +71,6 @@ python scripts/05_evaluate.py
 
 Five SPARQL competency queries are provided in `sparql/sparql_competency_queries.sparql`. Open the ontology in Protégé and run them via *Window → Tabs → SPARQL Query*.
 
-Example — find all prohibited AI practices:
-```sparql
-SELECT ?s ?label
-WHERE {
-    ?s rdf:type euai:ProhibitedAIPractice ;
-       rdfs:label ?label .
-}
-```
-
 ## Project Structure
 
 ```
