@@ -1,0 +1,52 @@
+PREFIX euai: <https://w3id.org/euaiact/ontology#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+# ── CQ1: What AI practices are prohibited under the EU AI Act? ─────────────────
+SELECT ?system ?label ?definition ?articleRef WHERE {
+    ?system rdf:type euai:ProhibitedAIPractice .
+    ?system rdfs:label ?label .
+    OPTIONAL { ?system skos:definition ?definition }
+    OPTIONAL { ?system euai:articleReference ?articleRef }
+}
+ORDER BY ?articleRef
+
+# ── CQ2: What obligations does a Provider have? ───────────────────────────────
+SELECT ?provider ?provLabel ?obligation ?oblLabel ?definition WHERE {
+    ?provider rdf:type euai:Actor .
+    ?provider rdfs:label ?provLabel .
+    ?provider euai:hasObligation ?obligation .
+    ?obligation rdfs:label ?oblLabel .
+    OPTIONAL { ?obligation skos:definition ?definition }
+    FILTER(regex(?provLabel, "provider", "i"))
+}
+ORDER BY ?provLabel ?oblLabel
+
+# ── CQ3: Which AI systems are classified as high-risk? ────────────────────────
+SELECT ?system ?label ?annexRef WHERE {
+    ?system rdf:type euai:HighRiskAISystem .
+    ?system rdfs:label ?label .
+    OPTIONAL { ?system euai:articleReference ?annexRef }
+}
+ORDER BY ?annexRef
+
+# ── CQ4: Which authorities enforce which obligations? ─────────────────────────
+SELECT ?authority ?authLabel ?obligation ?oblLabel WHERE {
+    ?authority rdf:type euai:Authority .
+    ?authority euai:enforces ?obligation .
+    ?authority rdfs:label ?authLabel .
+    ?obligation rdfs:label ?oblLabel .
+}
+
+# ── CQ5: What technical requirements apply to high-risk AI systems? ───────────
+SELECT ?requirement ?label ?definition WHERE {
+    ?system rdf:type euai:AISystem .
+    ?system rdfs:label ?sysLabel .
+    ?system euai:relatedTo ?requirement .
+    ?requirement rdf:type euai:Requirement .
+    ?requirement rdfs:label ?label .
+    OPTIONAL { ?requirement skos:definition ?definition }
+    FILTER(regex(?sysLabel, "high.risk", "i"))
+}
+ORDER BY ?label
