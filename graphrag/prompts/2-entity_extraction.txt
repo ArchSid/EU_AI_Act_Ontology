@@ -1,0 +1,99 @@
+-Goal-
+Given a text document from the EU Artificial Intelligence Act (EU AI Act, Regulation 2024/1689) and a list of entity types, identify all entities of those types from the text and all relationships among the identified entities.
+Your task is to identify legal entities, actors, obligations, and their relationships for building an OWL ontology.
+
+-Steps-
+1. Identify all entities. For each identified entity, extract the following information:
+- entity_name: Name of the entity, capitalized
+- entity_type: One of the following types: [{entity_types}]
+- entity_description: Comprehensive description of the entity's attributes and activities. Include article_reference where applicable.
+Format each entity as ("entity"<|><entity_name><|><entity_type><|><entity_description>)
+
+Use these definitions for entity types:
+- AISystem: Any AI system, AI model, or category of AI (e.g., "general-purpose AI model", "high-risk AI system", "prohibited AI practice"). GPAISystem is a subtype of AISystem built on top of a GPAIModel (Article 3(66)).
+- Actor: Any person, organisation, or role with legal standing (e.g., "provider", "deployer", "downstream deployer", "notified body", "market surveillance authority").
+- Obligation: Any duty, requirement, or prohibition imposed by the Act (e.g., "conformity assessment", "registration in EU database", "transparency obligation"). For obligations, include exception/deadline/consequence info in the description when explicitly stated in the text.
+- RiskCategory: Risk classification levels (e.g., "unacceptable risk", "high risk", "limited risk", "minimal risk").
+- Authority: Regulatory or enforcement bodies (e.g., "AI Office", "national competent authority", "European Artificial Intelligence Board", "European Commission").
+- Requirement: Technical or organisational requirements (e.g., "risk management system", "data governance", "technical documentation", "human oversight", "accuracy", "robustness", "cybersecurity").
+- Article: References to specific articles, annexes, or recitals (e.g., "Article 6", "Annex III", "Article 5(1)(a)").
+- AnnexIIICategory: The 8 high-risk use case domains listed in Annex III (e.g., "biometrics", "critical infrastructure", "education", "employment", "essential services", "law enforcement", "migration and border control", "administration of justice").
+- ExclusionCondition: A condition under which an Annex III AI system is NOT classified as high-risk (e.g., "performs a narrow procedural task", "improves result of previously completed human activity").
+- ClassificationRule: A rule or criterion determining whether an AI system is classified as high-risk (e.g., "Annex I product safety component rule", "Annex III use case rule").
+- DelegatedAct: A Commission act that modifies or extends classification rules or obligations.
+- SystemicRisk: Risk classification for GPAI models exceeding 10^25 FLOPs compute threshold, triggering additional obligations under Article 55.
+- CodeOfPractice: A voluntary compliance instrument for GPAI model providers to demonstrate compliance.
+- SeriousIncident: An event related to a GPAI model that must be reported to the AI Office and relevant authorities.
+- Complaint: A formal procedural instrument through which downstream providers can report upstream provider infringements to the AI Office.
+
+2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
+For each pair of related entities, extract the following information:
+- source_entity: name of the source entity, as identified in step 1
+- target_entity: name of the target entity, as identified in step 1
+- relationship_description: explanation as to why you think the source entity and the target entity are related to each other. Use these relationship types in the description where applicable: hasObligation, hasRiskCategory, definedInArticle, regulatedBy, subjectTo, enforces, triggers, hasException, hasDeadline, hasConsequence, grants, rejects, isExemptFromHighRisk, alwaysClassifiedAs, belongsToCategory, appliesTo, modifies, providesInstructionsTo, appliesThroughout, isBasedOn, cooperatesWith, meetsSystemicRiskThreshold, notifiesWithin, presumesConformity, lodgesComplaintWith, conductsEvaluationOf, reducedObligationsApplyTo
+- relationship_strength: a numeric score indicating strength of the relationship between the source entity and target entity
+Format each relationship as ("relationship"<|><source_entity><|><target_entity><|><relationship_description><|><relationship_strength>)
+
+3. Return output in English as a single list of all the entities and relationships identified in steps 1 and 2. Use **##** as the list delimiter.
+
+4. When finished, output <|COMPLETE|>
+
+######################
+-Examples-
+######################
+Example 1:
+Entity_types: AISystem,Actor,Obligation,RiskCategory,Authority,Requirement,Article
+Text:
+Providers of high-risk AI systems shall ensure that their AI systems undergo conformity assessment procedures as set out in Article 43 before those systems are placed on the market or put into service. The AI Office shall coordinate with national competent authorities to enforce compliance.
+######################
+Output:
+("entity"<|>PROVIDER<|>Actor<|>Natural or legal person who develops or places an AI system on the market, as defined in Article 3(3))
+##
+("entity"<|>HIGH-RISK AI SYSTEM<|>AISystem<|>An AI system classified as high-risk under Article 6 that must meet specific requirements before market placement)
+##
+("entity"<|>CONFORMITY ASSESSMENT<|>Obligation<|>Providers of high-risk AI systems must conduct conformity assessments per Article 43 before placing systems on the market or putting them into service)
+##
+("entity"<|>AI OFFICE<|>Authority<|>EU body that coordinates with national competent authorities to enforce compliance with the AI Act)
+##
+("entity"<|>NATIONAL COMPETENT AUTHORITY<|>Authority<|>National regulatory body that works with the AI Office on enforcement)
+##
+("entity"<|>ARTICLE 43<|>Article<|>Article defining conformity assessment procedures for high-risk AI systems)
+##
+("relationship"<|>PROVIDER<|>CONFORMITY ASSESSMENT<|>Provider hasObligation to conduct conformity assessment for high-risk AI systems per Article 43<|>9)
+##
+("relationship"<|>HIGH-RISK AI SYSTEM<|>CONFORMITY ASSESSMENT<|>High-risk AI systems are subjectTo conformity assessment before market placement<|>9)
+##
+("relationship"<|>AI OFFICE<|>NATIONAL COMPETENT AUTHORITY<|>AI Office cooperatesWith national competent authorities to enforce compliance<|>8)
+##
+("relationship"<|>CONFORMITY ASSESSMENT<|>ARTICLE 43<|>Conformity assessment is definedInArticle 43<|>10)
+<|COMPLETE|>
+
+######################
+Example 2:
+Entity_types: AISystem,Actor,Obligation,RiskCategory,Authority,ExclusionCondition,Article
+Text:
+Law enforcement authorities must obtain prior authorisation from a judicial or independent administrative authority before deploying real-time remote biometric identification systems in publicly accessible spaces. In duly justified cases of urgency, deployment may commence without prior authorisation but must be requested within 24 hours. If authorisation is rejected, deployment must cease immediately and all data must be deleted.
+######################
+Output:
+("entity"<|>LAW ENFORCEMENT AUTHORITY<|>Actor<|>Authority responsible for law enforcement that must obtain prior authorisation before deploying real-time remote biometric identification systems)
+##
+("entity"<|>REAL-TIME REMOTE BIOMETRIC IDENTIFICATION SYSTEM<|>AISystem<|>AI system used for real-time biometric identification in publicly accessible spaces, subject to prior authorisation requirements)
+##
+("entity"<|>PRIOR AUTHORISATION FOR DEPLOYMENT<|>Obligation<|>Law enforcement authorities must obtain prior authorisation from a judicial or independent administrative authority before deploying real-time remote biometric identification systems per Article 5(2). Exception: In duly justified cases of urgency, deployment may commence without prior authorisation. Deadline: Authorisation must be requested within 24 hours of urgent deployment. Consequence: If rejected, deployment must cease immediately and all data must be deleted)
+##
+("entity"<|>JUDICIAL AUTHORITY<|>Authority<|>Judicial body that grants or rejects prior authorisation for deployment of real-time remote biometric identification systems)
+##
+("relationship"<|>LAW ENFORCEMENT AUTHORITY<|>PRIOR AUTHORISATION FOR DEPLOYMENT<|>Law enforcement authority hasObligation to obtain prior authorisation before deploying biometric identification systems<|>10)
+##
+("relationship"<|>JUDICIAL AUTHORITY<|>PRIOR AUTHORISATION FOR DEPLOYMENT<|>Judicial authority grants or rejects prior authorisation for deployment<|>9)
+##
+("relationship"<|>REAL-TIME REMOTE BIOMETRIC IDENTIFICATION SYSTEM<|>PRIOR AUTHORISATION FOR DEPLOYMENT<|>Real-time remote biometric identification system is subjectTo prior authorisation requirement<|>10)
+<|COMPLETE|>
+
+######################
+-Real Data-
+######################
+Entity_types: {entity_types}
+Text: {input_text}
+######################
+Output:
