@@ -1,0 +1,10 @@
+Conforms: True
+Validation Report
+Conforms: True
+
+
+=== ONTOLOGY METRICS ===
+Classes: 37
+Object Properties: 29
+Named Individuals: 1453
+Total Triples: 8620

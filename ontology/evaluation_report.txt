@@ -1,0 +1,86 @@
+========================================================================
+  PART A: STRUCTURAL METRICS
+========================================================================
+
+A1. Basic counts
+    OWL Classes:            37
+    Object Properties:      29
+    Datatype Properties:    3
+    Named Individuals:      1453
+    Total Triples:          8620
+
+A2. Class hierarchy depth
+    Max depth:              2
+    Average depth:          0.62
+    Root classes (no parent): 15
+    Deepest class(es):      euai:SystemicRiskGPAI
+
+A3. Property-to-class ratio
+    Total properties:       32
+    Classes:                37
+    Ratio:                  0.86
+
+A4. Individual-to-class population density
+    Populated classes:      17 / 37
+    Empty classes:          20
+    Empty class names:      euai:AIOffice, euai:AuthorisedRepresentative, euai:ConformityAssessment, euai:DataGovernance, euai:Deployer, euai:Distributor, euai:EuropeanAIBoard, euai:GeneralPurposeAIModel, euai:HumanOversight, euai:Importer, euai:NationalCompetentAuthority, euai:NotifiedBody, euai:PostMarketMonitoring, euai:Provider, euai:QualityManagementSystem, euai:RiskManagementSystem, euai:Robustness, euai:SystemicRiskGPAI, euai:TechnicalDocumentation, euai:TransparencyObligation
+    Avg individuals/class:  39.3
+
+A5. Orphan individuals (no euai: relationships)
+    Orphan individuals:     95 / 1453
+    Connected rate:         93.5%
+
+A6. Annotation coverage
+    Individuals with label:       1453 / 1453 (100.0%)
+    Individuals with definition:  1453 / 1453 (100.0%)
+
+A7. Relationship type distribution (top 15)
+    relatedTo                                 1495
+    definedInArticle                           248
+    subjectTo                                  211
+    hasObligation                              159
+    belongsToCategory                           70
+    appliesTo                                   40
+    isExemptFromHighRisk                        38
+    cooperatesWith                              29
+    regulatedBy                                 27
+    triggers                                    23
+    isBasedOn                                   20
+    enforces                                    19
+    hasException                                17
+    conductsEvaluationOf                        17
+    alwaysClassifiedAs                          14
+    --- total ---                             2471
+
+A8. Entity type distribution
+    Article                                    372
+    Obligation                                 301
+    Requirement                                247
+    Actor                                      156
+    AISystem                                   152
+    ExclusionCondition                          71
+    Authority                                   58
+    AnnexIIICategory                            24
+    ClassificationRule                          23
+    RiskCategory                                17
+    DelegatedAct                                 8
+    HighRiskAISystem                             8
+    SystemicRisk                                 6
+    CodeOfPractice                               6
+    ProhibitedAIPractice                         4
+    Complaint                                    1
+    SeriousIncident                              1
+
+========================================================================
+  SUMMARY
+========================================================================
+
+  Classes: 37, Properties: 32, Individuals: 1453
+  Max class depth: 2, Avg depth: 0.62
+  Property/class ratio: 0.86
+  Orphan individuals: 95/1453 (6.5%)
+  Label coverage: 100.0%, Definition coverage: 100.0%
+
+  Note: For task-based competency question evaluation, run the queries
+  in sparql/sparql_competency_queries.sparql manually in Protégé.
+
