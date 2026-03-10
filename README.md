@@ -2,17 +2,6 @@
 
 An OWL 2 ontology of the [EU Artificial Intelligence Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) (Regulation 2024/1689), built using an LLM-powered knowledge-graph extraction pipeline.
 
-## Highlights
-
-| Metric | Value |
-|--------|-------|
-| Classes | 37 |
-| Named individuals | 1,453 |
-| Relationships | 2,473 |
-| Total triples | 8,620 |
-| SHACL validation | Conforms ✅ |
-| HermiT reasoner | Consistent ✅ |
-
 ## What It Covers
 
 - **AI systems** across the full risk spectrum — prohibited practices, high-risk systems, general-purpose AI models, and systemic-risk models
@@ -26,14 +15,14 @@ An OWL 2 ontology of the [EU Artificial Intelligence Act](https://eur-lex.europa
 The ontology is constructed through a five-stage automated pipeline:
 
 ```
-EUR-Lex ──► Scrape ──► GraphRAG + Gemini ──► OWL Ontology ──► SHACL Validation ──► Reasoner Check
-             (1)           (2)                   (3)              (4)                  (5)
+EUR-Lex ──► Scrape ──► GraphRAG + Gemini ──► OWL Ontology ──► SHACL Validation & Evaluation──► Reasoner Check
+             (1)           (2)                   (3)                  (4)                          (5)
 ```
 
 1. **Scrape** — Download the full Act text from EUR-Lex (`01_scrape_act.py`)
 2. **Extract** — Run [Microsoft GraphRAG](https://github.com/microsoft/graphrag) v3.0.5 with Google Gemini to extract 1,444 entities and 2,473 relationships from the text (`02_run_graphrag.py`)
 3. **Build ontology** — Merge a manually curated class hierarchy (37 classes, 22 subclass axioms) with GraphRAG-extracted entities and relationships (`03_graph_to_owl.py`)
-4. **Validate** — Run SHACL shape validation to check constraints (`04_validate.py`)
+4. **Validate & Evaluate** — Run SHACL shape validation to check constraints (`04_validate.py`) & calculated ontology metrics (`05_evaluate.py`). 
 5. **Reasoner check** — Load in Protégé 5.6 and run HermiT to verify logical consistency
 
 ## Quick Start
@@ -97,7 +86,7 @@ WHERE {
 EU_AI_act_GraphRAG/
 ├── data/input/              # Source text of the EU AI Act
 ├── docs/
-│   ├── documentation.md     # Full documentation note
+│   ├── Documentaion-SHORT.pdf     # Full documentation note
 │   ├── validation_results.md
 │   └── evaluation_structural_metrics.md
 ├── graphrag/
@@ -107,7 +96,6 @@ EU_AI_act_GraphRAG/
 ├── ontology/
 │   ├── eu-ai-act.owl        # Ontology (RDF/XML)
 │   ├── eu-ai-act.ttl        # Ontology (Turtle)
-│   ├── kg_interactive.html  # Interactive KG visualisation
 │   ├── validation_report.txt
 │   └── evaluation_report.txt
 ├── scripts/                 # Pipeline scripts (stages 1–5)
@@ -142,11 +130,10 @@ Standard vocabularies reused: `rdfs:label`, `skos:definition`, `dcterms:descript
 | Ontology library | [rdflib](https://rdflib.readthedocs.io/) |
 | SHACL validation | [pyshacl](https://github.com/RDFLib/pySHACL) |
 | Reasoner | HermiT (via [Protégé](https://protege.stanford.edu/) 5.6) |
-| Visualisation | [pyvis](https://pyvis.readthedocs.io/), matplotlib, networkx |
 
 ## Documentation
 
-For full details on methodology, modelling decisions, validation, and evaluation, see [docs/documentation.md](docs/documentation.md).
+For full details on methodology, modelling decisions, validation, and evaluation, see [docs/Documentaion-SHORT.pdf](docs/Documentaion-SHORT.pdf).
 
 ## License
 
