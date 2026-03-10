@@ -2,7 +2,7 @@
 
 ## Overview
 
-Validation checks whether the ontology is **correct** — i.e., it conforms to its own constraints and is logically consistent. This is distinct from evaluation (see `docs/evaluation_structural_metrics.md`), which measures ontology **quality** through structural metrics and competency questions.
+Validation checks whether the ontology is **correct**: i.e., it conforms to its own constraints and is logically consistent. This is distinct from evaluation (see `docs/evaluation_structural_metrics.md`), which measures ontology **quality** through structural metrics and competency questions.
 
 Two validation checks are applied:
 (1) **SHACL shape validation** checks domain-specific constraints programmatically;
@@ -17,7 +17,9 @@ Two validation checks are applied:
 
 ### Stage 1 — SHACL Shape Validation
 
-The script loads the Turtle ontology into an `rdflib.Graph` and validates it against two SHACL shapes using `pyshacl` with RDFS inference enabled. These two shapes were chosen because they target the highest-impact data quality risks in this pipeline: (1) missing legal provenance on the most consequential entity type, and (2) missing labels on entities created indirectly through RDFS inference rather than direct GraphRAG extraction.
+The script loads the Turtle ontology into an `rdflib.Graph` and validates it against two SHACL shapes using `pyshacl` with RDFS inference enabled. These two shapes were chosen because they target the highest-impact data quality risks in this pipeline: 
+(1) missing legal provenance on the most consequential entity type
+(2) missing labels on entities created indirectly through RDFS inference rather than direct GraphRAG extraction.
 
 **Shape 1 — HighRiskAISystemShape**
 Every individual typed as `euai:HighRiskAISystem` must have at least one `euai:articleReference` (datatype `xsd:string`). This ensures high-risk system entries are traceable to their legal source in the Regulation.
